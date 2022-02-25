@@ -1,35 +1,35 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import Home from '../views/Home.vue'
+// import Home from '../views/Home.vue'
 
 const routes = [
-  // {
-  //   path: '/',
-  //   name: 'Home',
-  //   component: Home
-  // },
   {
     path: '/',
     component: () => import(/* webpackChunkName: "about" */ '../views/FrontView.vue'),
     children: [
       {
-        path: '',
-        name: 'Home',
-        component: Home
+        path: '/',
+        name: '首頁',
+        component: () => import(/* webpackChunkName: "about" */ '../views/indexView.vue')
       },
       {
         path: 'products',
-
+        name: '產品頁',
         component: () => import(/* webpackChunkName: "about" */ '../views/ProductView.vue')
       },
       {
         path: 'product/:id',
-
+        name: '產品內頁',
         component: () => import(/* webpackChunkName: "about" */ '../views/Productinside.vue')
       },
       {
         path: 'car',
-
+        name: '購物車',
         component: () => import(/* webpackChunkName: "about" */ '../views/CardataView.vue')
+      },
+      {
+        path: 'test',
+        name: '測試',
+        component: () => import(/* webpackChunkName: "about" */ '../views/test.vue')
       }
     ]
   }, {

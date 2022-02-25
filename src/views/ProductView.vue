@@ -1,5 +1,6 @@
 <template>
-
+<div class="text-center mt-3 mb-3"><h2>產品列表</h2></div>
+ <Loading :active="isLoading"></Loading>
 <div class="container">
   <div class="row row-cols-md-4 row-cols-2 g-3">
     <div class="col  mb-3" v-for="(item) in productList" :key="item.id">
@@ -21,17 +22,20 @@
 export default {
   data () {
     return {
-      productList: []
+      productList: [],
+      isLoading: false
     }
   },
   methods: {
     getProducts () {
+      this.isLoading = true
       this.$http(
         `${process.env.VUE_APP_API}/v2/api/${process.env.VUE_APP_PATH}/products/all`
       )
         .then(
           (res) => {
             this.productList = res.data.products
+            this.isLoading = false
           })
         .catch((er) => {
           console.log(er)
@@ -45,7 +49,8 @@ export default {
 </script>
 
 <style lang="scss">
-.btn {
+.card-body {
+  .btn {
   display: block;
    font-size: 1.4rem;
    border: none;
@@ -53,4 +58,6 @@ export default {
      background:#37a3c3;
    }
 }
+}
+
 </style>
