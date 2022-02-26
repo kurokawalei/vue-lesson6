@@ -7,8 +7,8 @@
       </div>
       <div class="col-md-6 align-self-center">
         <h1 class="fs-1 h1">產品名稱：{{ product.title }}</h1>
-        <p class="fs-4">原價：{{ product.origin_price }}</p>
-        <p class="fs-4">售價：{{ product.price }}</p>
+        <p class="fs-4 under-throughline"> 原價：{{ product.origin_price }}元</p>
+        <p class="fs-4">售價：{{ product.price }}元</p>
         <p class="main">
           {{ product.description }}
         </p>
@@ -45,7 +45,7 @@ export default {
     return {
       product: {},
       isLoading: false,
-      qty: ''
+      qty: '1'
     }
   },
   methods: {
@@ -91,3 +91,9 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.under-throughline {
+  text-decoration: line-through;
+}
+</style>
