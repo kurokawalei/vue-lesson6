@@ -46,9 +46,16 @@
             <td>
               <div class="input-group input-group-sm">
                 <div class="input-group mb-3">
-                  <!-- <select class="form-select" v-model="item.qty"  @change="upLoadItem(item)" panelHeight="100" :disabled="isloading === item.id" >
-                          <option v-for=" (num,i) in 99 " :value="num" :key="i" >{{num}}</option>
-                        </select> -->
+                  <select
+                    class="form-select"
+                    v-model="item.qty"
+                    @change="upLoadItem(item)"
+                    panelHeight="100"
+                  >
+                    <option v-for="(num, i) in 99" :value="num" :key="i">
+                      {{ num }}
+                    </option>
+                  </select>
                   <span class="input-group-text">{{ item.qty }}</span>
                   <span class="input-group-text" id="basic-addon2">{{
                     item.product.unit
@@ -74,6 +81,7 @@
               </tr> -->
       </tfoot>
     </table>
+    <router-link to="/order">結帳</router-link>
   </div>
 </template>
 
@@ -102,6 +110,28 @@ export default {
           console.log(er)
         })
     },
+    upLoadItem (item) {
+      this.isLoading = true
+      const data = {
+        product_id: item.id,
+        qty: item.qty
+      }
+
+      this.$http
+        .put(
+          `${process.env.VUE_APP_API}/v2/api/${process.env.VUE_APP_PATH}/cart/${item.id}`,
+          { data }
+        )
+        .then((res) => {
+          console.log(res)
+          this.getCarList()
+          this.isLoading = false
+        })
+        .catch((er) => {
+          console.log(er)
+        })
+    },
+
     removeItem (id) {
       this.isLoading = true
 

@@ -1,26 +1,41 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarTogglerDemo03"
-        aria-controls="navbarTogglerDemo03"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      ></button>
-      <router-link class="nav-link navbar-brand" to="/admin">後台</router-link>
-      <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <router-link class="nav-link" to="/admin/products"
-              >產品列表</router-link
-            >
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-  <router-view></router-view>
+  <NavBarBored></NavBarBored>
+  <router-view v-if="checkSuccess"></router-view>
 </template>
+
+<script>
+import NavBarBored from '@/components/DasbordeNav.vue'
+export default {
+  data () {
+    return {
+      checkSuccess: false
+    }
+  },
+  methods: {
+    checkLogin () {
+      const token = document.cookie.replace(
+        /(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/,
+        '$1'
+      )
+      this.$http.defaults.headers.common.Authorization = `${token}`
+      this.$http
+        .post(`${process.env.VUE_APP_API}/v2/api/user/check`, {
+          api_token: token
+        })
+        .then(() => {
+          this.checkSuccess = true // 通過 check api 驗證後改為 true
+        })
+        .catch((err) => {
+          console.log(err)
+          this.$router.push('/login')
+        })
+    }
+  },
+  components: {
+    NavBarBored
+  },
+  mounted () {
+    this.checkLogin()
+  }
+}
+</script>
